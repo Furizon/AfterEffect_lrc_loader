@@ -93,7 +93,7 @@ function loadLrcFile(filePath) {
         listBox.removeAll(); // 清空列表框
         for (var i = 0; i < lines.length; i++) {
             var line = lines[i];
-            var timestampMatch = line.match(/\[\d{2}:\d{2}\.\d{2}\]/);
+            var timestampMatch = line.match(/\[\d{2}:\d{2}\.\d{1,3}\]/);
             if (timestampMatch) {
                 listBox.add("item", line); // 添加字幕文本到列表框
             }
@@ -164,20 +164,20 @@ confirmButton.onClick = function () {
         var subtitleText = "";
         for (var i = 0; i < selectedItems.length; i++) {
             var text = selectedItems[i].text;
-            var timestampMatch = text.match(/\[(\d{2}):(\d{2}\.\d{2})\]/);
+            var timestampMatch = text.match(/\[(\d{2}):(\d{2}\.\d{1,3})\]/);
             var minutes = parseInt(timestampMatch[1]);
             var seconds = parseFloat(timestampMatch[2]);
             var startTime = minutes * 60 + seconds; // 计算开始时间
 
             // 合并字幕文本
             var singleTextDoc = textDocument;
-            singleTextDoc.text = text.replace(/\[\d{2}:\d{2}\.\d{2}\]/, '');
+            singleTextDoc.text = text.replace(/\[\d{2}:\d{2}\.\d{1,3}\]/, '');
             // 设置字幕的显示时间，添加关键帧
             textProp.setValueAtTime(startTime, singleTextDoc); // 在特定时间显示字幕
             
             if (i + 1 < selectedItems.length) {
                 var text = selectedItems[i + 1].text;
-                var timestampMatchEnd = text.match(/\[(\d{2}):(\d{2}\.\d{2})\]/);
+                var timestampMatchEnd = text.match(/\[(\d{2}):(\d{2}\.\d{1,3})\]/);
                 var minutes = parseInt(timestampMatchEnd[1]);
                 var seconds = parseFloat(timestampMatchEnd[2]);
                 var endTime = minutes * 60 + seconds; // 计算开始时间
